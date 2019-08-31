@@ -160,3 +160,12 @@ Sometimes the install may freeze or not be successful. Best approach here is to 
 ### Deploy to EKS
 
 Follow these instructions to deploy [your app to EKS](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/#deploy-the-app-to-eks).
+
+## Scaling
+
+If you want to manually scale the number of nodes in the cluster, use the following command:
+
+```
+# This will scale the number of desired nodes to 1 in the cluster 'prod' for 'standard-workers' nodegroup
+eksctl scale nodegroup --nodes=1 --cluster=prod --name=standard-workers
+```
