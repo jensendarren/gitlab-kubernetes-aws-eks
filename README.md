@@ -1,6 +1,6 @@
-# Deploy an app to Kubernetets running on AWS EKS via GitLab AutoDevops
+# Deploy an app to Kubernetes running on AWS EKS via GitLab AutoDevOps
 
-In order to achived this we need:
+In order to achive this we need:
 
 * A K8S cluster setup in AWS
 * A Gitlab account
@@ -87,3 +87,58 @@ kubectl proxy
 Navigate to this location for the [running K8S Dashboard](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login) and copy past the token from the previous step to authenticate and gain access!
 
 For more information about using the dashboard, see the [project documentation on GitHub](https://github.com/kubernetes/dashboard).
+
+
+## Setup GitLab: Connecting and deploying to an Amazon EKS cluster
+
+Create a new GitLab account (if you need to) and then follow these instructions for [connecting and deploying to an Amazon EKS cluster](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/).
+
+This uses a templated Rails application to test the auto devops process to the running K8S cluster created previously in AWS.
+
+Once you have created the project you can create the integration with the K8S cluster. You will need:
+
+* Kubernetes cluster name: Provide a name for the cluster to identify it within GitLab. For now just call it **eks**.
+* Environment scope: Leave this as * for now, since we are only connecting a single cluster.
+* API URL: Paste in the API server endpoint. You can fetch this with the following command `aws eks describe-cluster --name=prod --query 'cluster.endpoint'`
+* CA Certificate: Paste the certificate data from the earlier step (see gitlab doc linked above)
+* Paste the admin token value (again, see gitlab doc linked above)
+* Project namespace: This can be left blank to accept the default namespace, based on the project name.
+* Make sure you **DISABLE** _RBAC-enabled cluster_ option for now.
+* MAke sure you **ENABLE** _GitLab-managed cluster_ option for now.
+* Set the **base domain** to the domain that you want to use to test this app (e.g. example.com)
+
+In order to ensure that RBAC being disabled will not cause issues run this command:
+
+```
+ubectl create clusterrolebinding permissive-binding \
+  --clusterrole=cluster-admin \
+  --user=admin \
+  --user=kubelet \
+  --group=system:serviceaccounts
+```
+
+### Deploy services to the cluster
+
+Now we need to deploy some Gitlab Managed Services to the cluster to enable deployment and auto devops to work. We need to install:
+
+* Helm Tiller
+* Ingress
+* GitLab Runner
+
+### Instlaling Helm Tiller
+
+Just click the 'install' button next to Helm Tiller.
+
+### Instlaling Ingress
+
+Just click the 'install' button next to Ingress. Once the installation is complete then make a note of the 'Ingress Endpoint' for later. This is essentially the public ELB created in AWS that points to all the nodes in our cluster!
+
+### Instlaling Gitlab Runner
+
+Just click the 'install' button next to Gitlab Runner.
+
+Note that the Storage Class should already be applied.
+
+### Deploy to EKS
+
+Follow these instructions to deploy [your app to EKS](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/#deploy-the-app-to-eks).
