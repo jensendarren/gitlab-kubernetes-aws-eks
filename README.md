@@ -9,6 +9,10 @@ In order to achive this we need:
 * A domian to test out the application (e.g. example.com)
 * A wildcard DNS entry for the domain pointing to the ELB created during the Ingress installation.
 
+### Project in Gitlab
+
+Here is the [deploy-to-eks project in Gitlab](https://gitlab.com/jensendarren/deploy-to-eks). Note that the K8S cluster may have been removed to save money. The below instructions can be used to recreate a new cluster to try this out anytime.
+
 ## Setup a Kubernetes Cluster in AWS EKS
 
 In order to easily setup a Kubernetes Cluster in [AWS EKS](https://aws.amazon.com/eks/) it's best to use command line tools. For this we will need to install:
