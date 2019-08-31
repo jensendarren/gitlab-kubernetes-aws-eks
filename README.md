@@ -9,7 +9,7 @@ In order to achive this we need:
 * A domian to test out the application (e.g. example.com)
 * A wildcard DNS entry for the domain pointing to the ELB created during the Ingress installation.
 
-### Setup a Kubernetes Cluster in AWS EKS
+## Setup a Kubernetes Cluster in AWS EKS
 
 In order to easily setup a Kubernetes Cluster in [AWS EKS](https://aws.amazon.com/eks/) it's best to use command line tools. For this we will need to install:
 
@@ -117,7 +117,7 @@ ubectl create clusterrolebinding permissive-binding \
   --group=system:serviceaccounts
 ```
 
-### Deploy services to the cluster
+## Deploy services to the cluster
 
 Now we need to deploy some Gitlab Managed Services to the cluster to enable deployment and auto devops to work. We need to install:
 
@@ -138,6 +138,16 @@ Just click the 'install' button next to Ingress. Once the installation is comple
 Just click the 'install' button next to Gitlab Runner.
 
 Note that the Storage Class should already be applied.
+
+### Setting the DNS for the application domain
+
+Basically, we need to set a wildcard DNS entry that points to the ELB endpoint.
+
+For example, if your domain is `example.com` and your ELB DNS Name is `a05338436cbd711e98e8a027800492e8-2140553012.ap-southeast-1.elb.amazonaws.com` then you need to add a DNS entry (using Route 53 for example) as follows:
+
+*.stemware.io.  A   ALIAS dualstack.a05338436cbd711e98e8a027800492e8-2140553012.ap-southeast-1.elb.amazonaws.com.
+
+Read the details on [how to add this entry in Route 53](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/using-domain-names-with-elb.html?icmpid=docs_elb_console#dns-associate-custom-elb).
 
 ### Troubleshooting
 
