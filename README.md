@@ -139,6 +139,10 @@ Just click the 'install' button next to Gitlab Runner.
 
 Note that the Storage Class should already be applied.
 
+### Troubleshooting
+
+Sometimes the install may freeze or not be successful. Best approach here is to resort to the `kubectl` tool to see what might be causeing this and if necessary delete the entire **deployment** then delete the K8S integration in Gitlab and start again!
+
 ### Deploy to EKS
 
 Follow these instructions to deploy [your app to EKS](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/#deploy-the-app-to-eks).
