@@ -149,7 +149,9 @@ Basically, we need to set a wildcard DNS entry that points to the ELB endpoint.
 
 For example, if your domain is `example.com` and your ELB DNS Name is `a05338436cbd711e98e8a027800492e8-2140553012.ap-southeast-1.elb.amazonaws.com` then you need to add a DNS entry (using Route 53 for example) as follows:
 
-*.stemware.io.  A   ALIAS dualstack.a05338436cbd711e98e8a027800492e8-2140553012.ap-southeast-1.elb.amazonaws.com.
+*.example.com.  A   ALIAS dualstack.a05338436cbd711e98e8a027800492e8-2140553012.ap-southeast-1.elb.amazonaws.com.
+
+**NOTE**: its a wildcard subdomain A record entry pointing to an ALIAS of the ELB with a 'dualstack' prefix!
 
 Read the details on [how to add this entry in Route 53](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/using-domain-names-with-elb.html?icmpid=docs_elb_console#dns-associate-custom-elb).
 
