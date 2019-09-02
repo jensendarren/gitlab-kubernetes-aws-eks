@@ -34,9 +34,21 @@ Note if you want to avoid having to pass the profile name each time then set a l
 ```
 export AWS_PROFILE=rotati
 
-# Now this will use the rotati profile by default (notice this is also an example of using the query switch to filter the response)
+# Now, in the same terminal session, this will use the rotati profile by default:
 
+aws ec2 describe-instances
+```
+
+### AWS CLI Query Param
+
+You can query / filter results from the AWS CLI tool using `query` parameter, like so:
+
+```
+# Fetch only AvailabilityZone, Name and InstanceId from EC2 Describe Instances
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]'
+
+# Fetch only the cluster endpoint from EKS Descript Cluster
+aws eks describe-cluster --name=prod --query 'cluster.endpoint
 ```
 
 Read the following article for more details on [controlling AWS CLI output](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-output.html).
@@ -101,12 +113,12 @@ This uses a templated Rails application to test the auto devops process to the r
 
 Once you have created the project you can create the integration with the K8S cluster. You will need:
 
-* Kubernetes cluster name: Provide a name for the cluster to identify it within GitLab. For now just call it **eks**.
-* Environment scope: Leave this as * for now, since we are only connecting a single cluster.
-* API URL: Paste in the API server endpoint. You can fetch this with the following command `aws eks describe-cluster --name=prod --query 'cluster.endpoint'`
-* CA Certificate: Paste the certificate data from the earlier step (see gitlab doc linked above)
-* Paste the admin token value (again, see gitlab doc linked above)
-* Project namespace: This can be left blank to accept the default namespace, based on the project name.
+* **Kubernetes cluster name**: Provide a name for the cluster to identify it within GitLab. For now just call it **eks**.
+* **Environment scope**: Leave this as * for now, since we are only connecting a single cluster.
+* **API URL**: Paste in the API server endpoint. You can fetch this with the following command `aws eks describe-cluster --name=prod --query 'cluster.endpoint'`
+* **CA Certificate**: Paste the certificate data from the earlier step (see gitlab doc linked above)
+* Paste the **admin token** value (again, see gitlab doc linked above)
+* **Project namespace**: This can be left blank to accept the default namespace, based on the project name.
 * Make sure you **DISABLE** _RBAC-enabled cluster_ option for now.
 * MAke sure you **ENABLE** _GitLab-managed cluster_ option for now.
 * Set the **base domain** to the domain that you want to use to test this app (e.g. example.com)
@@ -161,7 +173,9 @@ Sometimes the install may freeze or not be successful. Best approach here is to 
 
 ### Deploy to EKS
 
-Follow these instructions to deploy [your app to EKS](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/#deploy-the-app-to-eks).
+Deployment should now be as simple as kicking off a build either via a new commit or manually via the Gitlab UI under CI/CD. As long as the project is enabled to use AutoDevOps this should just work!
+
+Check out these details for further information to [deploy your app to EKS](https://docs.gitlab.com/ee/user/project/clusters/eks_and_gitlab/#deploy-the-app-to-eks).
 
 ## Scaling
 
