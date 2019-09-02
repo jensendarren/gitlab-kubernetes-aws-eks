@@ -48,7 +48,7 @@ You can query / filter results from the AWS CLI tool using `query` parameter, li
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Placement.AvailabilityZone, State.Name, InstanceId]'
 
 # Fetch only the cluster endpoint from EKS Descript Cluster
-aws eks describe-cluster --name=prod --query 'cluster.endpoint
+aws eks describe-cluster --name=prod --query 'cluster.endpoint'
 ```
 
 Read the following article for more details on [controlling AWS CLI output](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-output.html).
