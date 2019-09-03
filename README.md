@@ -185,3 +185,15 @@ If you want to manually scale the number of nodes in the cluster, use the follow
 # This will scale the number of desired nodes to 1 in the cluster 'prod' for 'standard-workers' nodegroup
 eksctl scale nodegroup --nodes=1 --cluster=prod --name=standard-workers
 ```
+
+## Deleting
+
+To delete a cluster run the following command:
+
+```
+# delete the nodegroup first
+eksctl delete nodegroup standard-workers --cluster prod
+
+# then delete the entire cluster
+eksctl delete cluster prod
+```
