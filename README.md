@@ -128,7 +128,7 @@ Once you have created the project you can create the integration with the K8S cl
 In order to ensure that RBAC being disabled will not cause issues run this command:
 
 ```
-ubectl create clusterrolebinding permissive-binding \
+kubectl create clusterrolebinding permissive-binding \
   --clusterrole=cluster-admin \
   --user=admin \
   --user=kubelet \
@@ -172,6 +172,8 @@ Read the details on [how to add this entry in Route 53](https://docs.aws.amazon.
 ### Troubleshooting
 
 Sometimes the install may freeze or not be successful. Best approach here is to resort to the `kubectl` tool to see what might be causeing this and if necessary delete the entire **deployment** then delete the K8S integration in Gitlab and start again!
+
+Remember also, if you open a new terminal window, remember to set your AWS_PROFILE correctly `export AWS_PROFILE=rotati` otherwise you will be interacting with a different AWS account where your cluster is deployed to. Of course, if you are using your 'default' AWS account or you have set AWS_PROFILE as part of your `bash_profile` then this will note be an issue!
 
 ### Deploy to EKS
 
