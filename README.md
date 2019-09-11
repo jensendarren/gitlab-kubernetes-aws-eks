@@ -94,6 +94,8 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 
 **Start the proxy server**
 
+A reminder, make sure that you have set your AWS_PROFILE to the account where the k8s cluster is deoployed using `export AWS_PROFILE=rotati` if you choose to run this command in a new terminal window (like I did). If you do not set that, then you are not effectivly running this command against the correct account and you will receive a `401 Error` when attempting to open the Dashboard in your browser!
+
 ```
 kubectl proxy
 ```
